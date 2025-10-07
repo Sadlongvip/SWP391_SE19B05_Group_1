@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "bookingServiceId")
-@ToString(exclude = {"booking", "service"})
+@ToString(exclude = {"booking", "hotelService"})
 public class BookingService {
 
     @Id
@@ -24,9 +24,8 @@ public class BookingService {
     private Integer quantity;
 
     @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal price; // Giá tại thời điểm đặt dịch vụ
+    private BigDecimal price;
 
-    // --- Các mối quan hệ ---
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booking_id", nullable = false)
@@ -34,5 +33,5 @@ public class BookingService {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "service_id", nullable = false)
-    private Service service;
+    private HotelService hotelService;
 }

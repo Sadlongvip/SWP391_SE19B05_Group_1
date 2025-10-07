@@ -5,6 +5,7 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import com.luxestay.hotel.dto.HotelServiceDTO;
 
 @Entity
 @Table(name = "services")
@@ -14,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "serviceId")
 @ToString(exclude = "bookingServices")
-public class Service {
+public class HotelService {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,12 +33,20 @@ public class Service {
 
     private String category;
 
-    // --- Mối quan hệ ---
-
     @OneToMany(
             mappedBy = "service",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     private List<BookingService> bookingServices = new ArrayList<>();
+
+
+
+    public HotelService(HotelServiceDTO dto) {
+        this.serviceName = dto.getServiceName();
+        this.description = dto.getDescription();
+        this.price = dto.getPrice();
+        this.category = dto.getCategory();
+    }
+
 }
