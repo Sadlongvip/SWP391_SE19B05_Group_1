@@ -35,6 +35,28 @@ public class HotelServiceImplement implements HotelServiceServ {
         return new HotelServiceDTO(savedHotelService);
     }
 
+    @Override
+    public HotelServiceDTO editService(Long id, HotelServiceDTO hotelServiceDTO) {
+        HotelService existingService = hotelServiceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Service not found with id: " + id));
+        if (hotelServiceDTO.getServiceName() != null && !hotelServiceDTO.getServiceName().isEmpty()) {
+            existingService.setServiceName(hotelServiceDTO.getServiceName());
+        }
+        if (hotelServiceDTO.getDescription() != null) {
+            existingService.setDescription(hotelServiceDTO.getDescription());
+        }
+        if (hotelServiceDTO.getPrice() != null) {
+            existingService.setPrice(hotelServiceDTO.getPrice());
+        }
+        if (hotelServiceDTO.getCategory() != null && !hotelServiceDTO.getCategory().isEmpty()) {
+            existingService.setCategory(hotelServiceDTO.getCategory());
+        }
+        if (hotelServiceDTO.getIsAvailable() != null) {
+            existingService.setIsAvailable(hotelServiceDTO.getIsAvailable());
+        }
+        HotelService updatedService = hotelServiceRepository.save(existingService);
+        return new HotelServiceDTO(updatedService);
+    }
 
 
 }

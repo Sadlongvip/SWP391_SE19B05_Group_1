@@ -35,7 +35,7 @@ public class HotelService {
     private String category;
 
     @OneToMany(
-            mappedBy = "service",
+            mappedBy = "bookingServiceId",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )

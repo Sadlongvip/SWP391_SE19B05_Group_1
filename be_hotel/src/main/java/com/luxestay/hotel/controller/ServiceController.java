@@ -5,6 +5,8 @@ import com.luxestay.hotel.dto.HotelServiceDTO;
 import com.luxestay.hotel.model.HotelService;
 import com.luxestay.hotel.service.HotelServiceServ;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,12 +19,26 @@ public class ServiceController {
     private HotelServiceServ hotelService;
 
     @GetMapping("public/getall")
-    private List<HotelServiceDTO> getServices() {
+    public List<HotelServiceDTO> getServices() {
         return hotelService.getAllServices();
     }
 
     @PostMapping("admin/services")
-    private HotelServiceDTO addService(@RequestBody HotelServiceDTO hotelServiceDTO) {
+    public HotelServiceDTO addService(@RequestBody HotelServiceDTO hotelServiceDTO) {
         return hotelService.createService(hotelServiceDTO);
+    }
+    @PutMapping("admin/services/{id}")
+    public ResponseEntity<HotelServiceDTO> editService(
+            @PathVariable Long id,
+            @RequestBody HotelServiceDTO hotelServiceDTO) {
+
+        try {
+            HotelServiceDTO updatedServiceDTO = hotelService.editService(id, hotelServiceDTO);
+
+            return ResponseEntity.ok(updatedServiceDTO);
+
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 }

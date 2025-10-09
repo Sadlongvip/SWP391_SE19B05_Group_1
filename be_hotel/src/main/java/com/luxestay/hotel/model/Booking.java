@@ -35,15 +35,15 @@ public class Booking {
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id", nullable = false)
-    private Room room;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "room_id", nullable = false)
+//    private Room room;
+//
+//    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Review> reviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Review> reviews = new ArrayList<>();
-
-    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Payment> payments = new ArrayList<>();
+//    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Payment> payments = new ArrayList<>();
 
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BookingService> bookingServices = new ArrayList<>();

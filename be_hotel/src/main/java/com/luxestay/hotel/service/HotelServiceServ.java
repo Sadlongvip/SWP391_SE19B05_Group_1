@@ -9,4 +9,6 @@ public interface HotelServiceServ {
     List<HotelServiceDTO> getAllServices();
 
     HotelServiceDTO createService(HotelServiceDTO hotelServiceDTO);
+
+    HotelServiceDTO editService(Long id, HotelServiceDTO hotelServiceDTO);
 }
