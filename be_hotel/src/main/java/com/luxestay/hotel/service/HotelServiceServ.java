@@ -11,4 +11,6 @@ public interface HotelServiceServ {
     HotelServiceDTO createService(HotelServiceDTO hotelServiceDTO);
 
     HotelServiceDTO editService(Long id, HotelServiceDTO hotelServiceDTO);
+
+    HotelServiceDTO deleteService(Long id);
 }

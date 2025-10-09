@@ -41,4 +41,9 @@ public class ServiceController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+    @DeleteMapping("admin/services/{id}")
+    public ResponseEntity<HotelServiceDTO> deleteService(@PathVariable Long id){
+        HotelServiceDTO hotelServiceDTO = hotelService.deleteService(id);
+        return  ResponseEntity.ok(hotelServiceDTO);
+    }
 }

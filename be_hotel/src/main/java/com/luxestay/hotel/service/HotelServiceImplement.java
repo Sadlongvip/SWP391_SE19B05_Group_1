@@ -58,5 +58,13 @@ public class HotelServiceImplement implements HotelServiceServ {
         return new HotelServiceDTO(updatedService);
     }
 
+    @Override
+    public HotelServiceDTO deleteService(Long id) {
+        HotelService existingService = hotelServiceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Service not found with id: " + id));
+        hotelServiceRepository.delete(existingService);
+        return new HotelServiceDTO(existingService);
+    }
+
 
 }
