@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -16,7 +17,8 @@ public class HotelServiceDTO {
     private String description;
     private BigDecimal price;
     private String category;
-
+    private Boolean isAvailable;
+    private LocalDateTime createdAt;
 
     public HotelServiceDTO(HotelService service) {
         this.serviceId = service.getServiceId();
@@ -24,5 +26,7 @@ public class HotelServiceDTO {
         this.description = service.getDescription();
         this.price = service.getPrice();
         this.category = service.getCategory();
+        this.isAvailable = service.getIsAvailable();
+        this.createdAt = service.getCreatedAt();
     }
 }

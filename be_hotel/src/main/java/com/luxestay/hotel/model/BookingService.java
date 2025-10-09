@@ -4,6 +4,7 @@ package com.luxestay.hotel.model;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "booking_services")
@@ -26,6 +27,9 @@ public class BookingService {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
+    @Column(name = "service_date", updatable = false)
+    private LocalDateTime serviceDate;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booking_id", nullable = false)
@@ -34,4 +38,9 @@ public class BookingService {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "service_id", nullable = false)
     private HotelService hotelService;
+
+    @PrePersist
+    protected void onCreate() {
+        serviceDate = LocalDateTime.now();
+    }
 }

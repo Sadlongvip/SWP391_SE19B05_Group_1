@@ -3,6 +3,7 @@ package com.luxestay.hotel.model;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import com.luxestay.hotel.dto.HotelServiceDTO;
@@ -40,6 +41,11 @@ public class HotelService {
     )
     private List<BookingService> bookingServices = new ArrayList<>();
 
+    @Column(name = "is_available")
+    private Boolean isAvailable = true;
+
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
 
 
     public HotelService(HotelServiceDTO dto) {
@@ -47,6 +53,14 @@ public class HotelService {
         this.description = dto.getDescription();
         this.price = dto.getPrice();
         this.category = dto.getCategory();
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        if (isAvailable == null) {
+            isAvailable = true;
+        }
     }
 
 }
