@@ -8,16 +8,10 @@
         <outputRelativeToContentRoot value="true" />
         <module name="hotel" />
       </profile>
-      <profile name="Annotation profile for Hotel_Manager_Demo" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.5.6/spring-boot-configuration-processor-3.5.6.jar" />
-        </processorPath>
-        <module name="Hotel_Manager_Demo" />
-      </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Hotel_Manager_Demo" target="21" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
