@@ -1,0 +1,16 @@
+C:\Users\OS\OneDrive\Documents\GitHub\SWP391_SE19B05_Group_1\be_hotel\src\main\java\com\luxestay\hotel\config\CorsConfig.java
+C:\Users\OS\OneDrive\Documents\GitHub\SWP391_SE19B05_Group_1\be_hotel\src\main\java\com\luxestay\hotel\controller\AccountController.java
+C:\Users\OS\OneDrive\Documents\GitHub\SWP391_SE19B05_Group_1\be_hotel\src\main\java\com\luxestay\hotel\controller\HomeController.java
+C:\Users\OS\OneDrive\Documents\GitHub\SWP391_SE19B05_Group_1\be_hotel\src\main\java\com\luxestay\hotel\controller\RoomController.java
+C:\Users\OS\OneDrive\Documents\GitHub\SWP391_SE19B05_Group_1\be_hotel\src\main\java\com\luxestay\hotel\controller\StaffController.java
+C:\Users\OS\OneDrive\Documents\GitHub\SWP391_SE19B05_Group_1\be_hotel\src\main\java\com\luxestay\hotel\dao\AccountDao.java
+C:\Users\OS\OneDrive\Documents\GitHub\SWP391_SE19B05_Group_1\be_hotel\src\main\java\com\luxestay\hotel\dao\StaffDao.java
+C:\Users\OS\OneDrive\Documents\GitHub\SWP391_SE19B05_Group_1\be_hotel\src\main\java\com\luxestay\hotel\dto\PagedResponse.java
+C:\Users\OS\OneDrive\Documents\GitHub\SWP391_SE19B05_Group_1\be_hotel\src\main\java\com\luxestay\hotel\dto\RoomDetail.java
+C:\Users\OS\OneDrive\Documents\GitHub\SWP391_SE19B05_Group_1\be_hotel\src\main\java\com\luxestay\hotel\dto\RoomSearchCriteria.java
+C:\Users\OS\OneDrive\Documents\GitHub\SWP391_SE19B05_Group_1\be_hotel\src\main\java\com\luxestay\hotel\HotelApplication.java
+C:\Users\OS\OneDrive\Documents\GitHub\SWP391_SE19B05_Group_1\be_hotel\src\main\java\com\luxestay\hotel\model\Account.java
+C:\Users\OS\OneDrive\Documents\GitHub\SWP391_SE19B05_Group_1\be_hotel\src\main\java\com\luxestay\hotel\model\Review.java
+C:\Users\OS\OneDrive\Documents\GitHub\SWP391_SE19B05_Group_1\be_hotel\src\main\java\com\luxestay\hotel\model\Room.java
+C:\Users\OS\OneDrive\Documents\GitHub\SWP391_SE19B05_Group_1\be_hotel\src\main\java\com\luxestay\hotel\model\Staff.java
+C:\Users\OS\OneDrive\Documents\GitHub\SWP391_SE19B05_Group_1\be_hotel\src\main\java\com\luxestay\hotel\service\RoomService.java
