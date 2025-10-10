@@ -8,7 +8,7 @@
             <!-- JDBC Driver -->
             <property name="jakarta.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
             <property name="jakarta.persistence.jdbc.url"
-                      value="jdbc:sqlserver://localhost:1433;databaseName=students;encrypt=true;trustServerCertificate=true"/>
+                      value="jdbc:sqlserver://localhost:1433;databaseName=hotel_booking_system;encrypt=true;trustServerCertificate=true"/>
             <property name="jakarta.persistence.jdbc.user" value="sa"/>
             <property name="jakarta.persistence.jdbc.password" value="123456"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect"/>
