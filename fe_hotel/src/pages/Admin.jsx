@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
+import './Admin.css'
 import { endpoints, apiGet, apiJson } from '../services/api'
 import { useNavigate } from 'react-router-dom'
 
@@ -82,12 +83,16 @@ export default function Admin(){
   async function deleteStaff(id){ await fetch(`${endpoints.staffs()}/${id}`,{ method:'DELETE' }); reload() }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold">Bảng điều khiển quản trị</h1>
-        <button onClick={()=>{ localStorage.removeItem('session'); nav('/login') }} className="px-3 py-1 border">Đăng xuất</button>
-      </div>
+    <div className="admin-page">
+      <div className="container-admin">
+        <div className="admin-header">
+          <h1 className="admin-title">Bảng điều khiển quản trị</h1>
+          <div className="header-actions">
+            <button onClick={()=>{ localStorage.removeItem('session'); nav('/login') }} className="btn ghost">Đăng xuất</button>
+          </div>
+        </div>
 
+      <div className="section-card">
       <Section
         title="Tài khoản khách (Accounts)"
         items={accounts}
@@ -102,7 +107,9 @@ export default function Admin(){
         onDelete={deleteAccount}
         empty="Chưa có tài khoản"
       />
+      </div>
 
+      <div className="section-card">
       <Section
         title="Nhân viên (Staffs)"
         items={staffs}
@@ -117,6 +124,8 @@ export default function Admin(){
         onDelete={deleteStaff}
         empty="Chưa có nhân viên"
       />
+      </div>
+      </div>
     </div>
   )
 }
