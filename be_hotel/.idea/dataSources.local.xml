@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal" created-in="IU-252.26830.84">
+    <data-source name="hotel_booking_system@localhost" uuid="a9cf9e7b-104f-4b92-b916-d1c95cd6d41a">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MSSQL" />
+      <user-name>sa</user-name>
+      <schema-mapping />
+    </data-source>
+  </component>
+</project>

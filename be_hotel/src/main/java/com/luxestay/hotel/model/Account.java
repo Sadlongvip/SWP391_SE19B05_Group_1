@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "account_id")
     private int id;
     private String userName;
     private String password;
@@ -16,7 +17,12 @@ public class Account {
     //============================================================
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id")
-    private Roles role_id;
+    private Roles roles;
+
+    // One-to-One relationship with Employee
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Employee employee;
+
     //============================================================
     public Account() {}
 
@@ -69,11 +75,11 @@ public class Account {
         this.is_active = is_active;
     }
 
-    public Roles getRole_id() {
-        return role_id;
+    public Roles getRoles() {
+        return roles;
     }
 
-    public void setRole_id(Roles role_id) {
-        this.role_id = role_id;
+    public void setRoles(Roles roles) {
+        this.roles = roles;
     }
 }

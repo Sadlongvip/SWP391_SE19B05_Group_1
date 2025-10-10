@@ -2,6 +2,8 @@ package com.luxestay.hotel.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "roles")
 public class Roles {
@@ -11,6 +13,9 @@ public class Roles {
     private String role_name;
     private String role_description;
     //=====================================================
+    @OneToMany(mappedBy = "roles")
+    private List<Account> accounts;
+
     public Roles() {
     }
     //=====================================================
