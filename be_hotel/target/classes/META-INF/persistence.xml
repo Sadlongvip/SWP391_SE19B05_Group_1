@@ -2,7 +2,7 @@
     <persistence-unit name="Hotel_Manager">
         <class>com.luxestay.hotel.model.Review</class>
         <class>com.luxestay.hotel.model.Room</class>
-        <class>com.luxestay.hotel.model.Staff</class>
+        <class>com.luxestay.hotel.model.Employee</class>
         <class>com.luxestay.hotel.model.Account</class>
         <properties>
             <!-- JDBC Driver -->

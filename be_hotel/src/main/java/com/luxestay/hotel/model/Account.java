@@ -13,7 +13,7 @@ public class Account {
     private String password;
     private String phoneNumber;
     private String email;
-    private String is_active; // 0: inactive, 1: active, if active == account can use, else can't use
+    private int is_active; // 0: inactive, 1: active, if active == account can use, else can't use
     //============================================================
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id")
@@ -67,12 +67,20 @@ public class Account {
         this.email = email;
     }
 
-    public String getIs_active() {
+    public int getIs_active() {
         return is_active;
     }
 
-    public void setIs_active(String is_active) {
+    public void setIs_active(int is_active) {
         this.is_active = is_active;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     public Roles getRoles() {

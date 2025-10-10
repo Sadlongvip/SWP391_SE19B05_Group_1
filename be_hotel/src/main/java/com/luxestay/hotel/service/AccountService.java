@@ -1,0 +1,36 @@
+package com.luxestay.hotel.service;
+
+import com.luxestay.hotel.dao.AccountRepository;
+import com.luxestay.hotel.model.Account;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class AccountService {
+    @Autowired
+    private AccountRepository accountRepository;
+
+    public List<Account> getAllAccounts(){
+        return accountRepository.findAll();
+    }
+
+    public Account getAccountById(int id){
+        return accountRepository.findById(id).get();
+    }
+
+    public void addAccount(Account account){
+        accountRepository.save(account);
+    }
+
+    public void deleteAccountById(int id){
+        accountRepository.deleteById(id);
+    }
+
+    public void updateAccount(Account account){
+        accountRepository.save(account);
+    }
+
+}
