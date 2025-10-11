@@ -1,8 +1,6 @@
 package com.luxestay.hotel.model;
 
 import jakarta.persistence.*;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -21,7 +19,7 @@ public class Employee {
     private String department;
     private LocalDate hireDate;
     private BigDecimal salary;
-    private String status = "active";
+    private int status = 1; // 1: active, 0: inactive
     //======================================================
 
     public Employee() {
@@ -86,11 +84,11 @@ public class Employee {
         this.salary = salary;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 }

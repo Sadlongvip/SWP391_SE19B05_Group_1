@@ -73,10 +73,10 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEmployee(@PathVariable int id) {
+    public ResponseEntity<String> deleteEmployee(@PathVariable int id) {
         try {
             employeeService.deleteEmployee(id);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok("Employee deactivated successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

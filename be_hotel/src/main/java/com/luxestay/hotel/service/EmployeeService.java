@@ -21,6 +21,8 @@ public class EmployeeService {
     }
 
     public void addEmployee(Employee employee){
+        // Set default status to active when creating new employee
+        employee.setStatus(1);
         employeeRepository.save(employee);
     }
 
@@ -29,6 +31,11 @@ public class EmployeeService {
     }
 
     public void deleteEmployee(int id){
-        employeeRepository.deleteById(id);
+        // Soft delete: set status to 0 instead of removing from database
+        Employee employee = employeeRepository.findById(id).orElse(null);
+        if (employee != null) {
+            employee.setStatus(0);
+            employeeRepository.save(employee);
+        }
     }
 }

@@ -81,10 +81,10 @@ public class AccountController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAccount(@PathVariable int id) {
+    public ResponseEntity<String> deleteAccount(@PathVariable int id) {
         try {
             accountService.deleteAccountById(id);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok("Account deactivated successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
