@@ -22,6 +22,11 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
+    @GetMapping("/health")
+    public ResponseEntity<String> healthCheck() {
+        return ResponseEntity.ok("EmployeeController is working!");
+    }
+
     @GetMapping
     public ResponseEntity<List<Employee>> getAllEmployees() {
         try {

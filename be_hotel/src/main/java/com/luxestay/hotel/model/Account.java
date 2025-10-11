@@ -15,12 +15,12 @@ public class Account {
     private String email;
     private int is_active; // 0: inactive, 1: active, if active == account can use, else can't use
     //============================================================
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
     private Roles roles;
 
     // One-to-One relationship with Employee
-    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "account", fetch = FetchType.LAZY)
     private Employee employee;
 
     //============================================================

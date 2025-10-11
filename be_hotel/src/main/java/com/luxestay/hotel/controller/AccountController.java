@@ -30,13 +30,19 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
+    @GetMapping("/health")
+    public ResponseEntity<String> healthCheck() {
+        return ResponseEntity.ok("AccountController is working!");
+    }
+
     @GetMapping
     public ResponseEntity<List<Account>> getAllAccounts() {
         try {
             List<Account> accountList = accountService.getAllAccounts();
             return ResponseEntity.ok(accountList);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            e.printStackTrace(); // Add this for debugging
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
