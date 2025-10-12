@@ -38,6 +38,7 @@ CREATE TABLE employees (
     hire_date DATE DEFAULT GETDATE(),
     salary DECIMAL(10, 2),
     status NVARCHAR(20) DEFAULT N'active',
+	password NVARCHAR(100),
     created_at DATETIME DEFAULT GETDATE(),
     CONSTRAINT chk_employee_status CHECK (status IN (N'active', N'on_leave', N'terminated')),
     FOREIGN KEY (account_id) REFERENCES accounts(account_id)
