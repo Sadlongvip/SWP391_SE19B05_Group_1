@@ -165,13 +165,26 @@ function Section({ title, items, columns, onCreate, onUpdate, onDelete, empty, l
           <div className="create-grid">
             {columns.map(c => (
               <div key={c.key} className="field">
-                <input 
-                  placeholder={c.label}
-                  className="admin-input"
-                  type={c.type || 'text'}
-                  value={draft[c.key] || ''}
-                  onChange={e => setDraft(d => ({ ...d, [c.key]: e.target.value }))}
-                />
+                {c.type === 'select' ? (
+                  <select
+                    className="admin-input"
+                    value={draft[c.key] || ''}
+                    onChange={e => setDraft(d => ({ ...d, [c.key]: e.target.value }))}
+                  >
+                    <option value="">Chọn {c.label.toLowerCase()}</option>
+                    {c.options?.map(opt => (
+                      <option key={opt.value} value={opt.value}>{opt.label}</option>
+                    ))}
+                  </select>
+                ) : (
+                  <input 
+                    placeholder={c.label}
+                    className="admin-input"
+                    type={c.type || 'text'}
+                    value={draft[c.key] || ''}
+                    onChange={e => setDraft(d => ({ ...d, [c.key]: e.target.value }))}
+                  />
+                )}
               </div>
             ))}
           </div>
@@ -346,11 +359,20 @@ export default function Admin() {
           title="Nhân viên (Employees)"
           items={employees}
           columns={[
-            { key: 'employeeCode', label: 'Mã nhân viên' },
-            { key: 'position', label: 'Chức vụ' },
-            { key: 'department', label: 'Phòng ban' },
-            { key: 'salary', label: 'Lương' },
-            { key: 'status', label: 'Trạng thái' }
+            { key: 'employeeCode', label: 'Mã nhân viên', type: 'text' },
+            { key: 'account_email', label: 'Email tài khoản', type: 'email' },
+            { key: 'position', label: 'Chức vụ', type: 'text' },
+            { key: 'department', label: 'Phòng ban', type: 'text' },
+            { key: 'salary', label: 'Lương', type: 'number' },
+            { 
+              key: 'status', 
+              label: 'Trạng thái', 
+              type: 'select',
+              options: [
+                { value: '1', label: 'Hoạt động' },
+                { value: '0', label: 'Không hoạt động' }
+              ]
+            }
           ]}
           onCreate={createEmployee}
           onUpdate={updateEmployee}

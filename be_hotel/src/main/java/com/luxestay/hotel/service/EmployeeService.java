@@ -26,8 +26,28 @@ public class EmployeeService {
         employeeRepository.save(employee);
     }
 
-    public void updateEmployee(Employee employee){
-        employeeRepository.save(employee);
+    public void updateEmployee(Employee employee) {
+        Employee existingEmployee = employeeRepository.findById(employee.getId()).orElseThrow();
+        
+        // Update basic fields
+        if (employee.getEmployeeCode() != null) {
+            existingEmployee.setEmployeeCode(employee.getEmployeeCode());
+        }
+        if (employee.getPosition() != null) {
+            existingEmployee.setPosition(employee.getPosition());
+        }
+        if (employee.getDepartment() != null) {
+            existingEmployee.setDepartment(employee.getDepartment());
+        }
+        if (employee.getSalary() != null) {
+            existingEmployee.setSalary(employee.getSalary());
+        }
+        if (employee.getStatus() != existingEmployee.getStatus()) {
+            existingEmployee.setStatus(employee.getStatus());
+        }
+        
+        // Save the updated employee
+        employeeRepository.save(existingEmployee);
     }
 
     public void deleteEmployee(int id){
