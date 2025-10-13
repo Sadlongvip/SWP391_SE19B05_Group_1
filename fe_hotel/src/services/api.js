@@ -3,7 +3,9 @@ const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8080/api'
 export const endpoints = {
   rooms: () => `${API_BASE}/rooms`,
   accounts: () => `${API_BASE}/accounts`,
-  employees: () => `${API_BASE}/employees`
+  employees: () => `${API_BASE}/employees`,
+  login: () => `${API_BASE}/accounts/login`,
+  googleLogin: () => `${API_BASE}/accounts/google-login`
 }
 
 export async function apiGet(url){

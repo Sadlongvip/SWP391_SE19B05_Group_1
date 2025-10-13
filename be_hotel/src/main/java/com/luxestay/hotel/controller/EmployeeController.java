@@ -52,12 +52,14 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
+    public ResponseEntity<?> createEmployee(@RequestBody Employee employee) {
         try {
             employeeService.addEmployee(employee);
             return ResponseEntity.status(HttpStatus.CREATED).body(employee);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            e.printStackTrace(); // Log the error for debugging
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error creating employee: " + e.getMessage());
         }
     }
 

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Creation Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        button { padding: 10px 15px; margin: 5px; }
+        .result { margin-top: 10px; padding: 10px; background: #f0f0f0; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        input, select { padding: 8px; margin: 5px; width: 200px; }
+    </style>
+</head>
+<body>
+    <h1>Employee Creation Test</h1>
+    <p><strong>Test the POST /api/employees endpoint</strong></p>
+    
+    <div class="test-section">
+        <h3>Create New Employee</h3>
+        <form id="employeeForm">
+            <div>
+                <label>Account Email:</label><br>
+                <input type="email" id="accountEmail" placeholder="employee@example.com" value="test@example.com">
+            </div>
+            <div>
+                <label>Password:</label><br>
+                <input type="password" id="password" placeholder="Password" value="password123" required>
+            </div>
+            <div>
+                <label>Employee Code:</label><br>
+                <input type="text" id="employeeCode" placeholder="EMP001" value="EMP001">
+            </div>
+            <div>
+                <label>Position:</label><br>
+                <input type="text" id="position" placeholder="Manager" value="Manager">
+            </div>
+            <div>
+                <label>Department:</label><br>
+                <input type="text" id="department" placeholder="IT" value="IT">
+            </div>
+            <div>
+                <label>Salary:</label><br>
+                <input type="number" id="salary" placeholder="50000" value="50000">
+            </div>
+            <button type="submit">Create Employee</button>
+        </form>
+        <div id="employeeResult" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Get All Employees</h3>
+        <button onclick="getAllEmployees()">Get All Employees</button>
+        <div id="allEmployeesResult" class="result"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080/api';
+        
+        document.getElementById('employeeForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const employeeData = {
+                account_email: document.getElementById('accountEmail').value,
+                password: document.getElementById('password').value,
+                employeeCode: document.getElementById('employeeCode').value,
+                position: document.getElementById('position').value,
+                department: document.getElementById('department').value,
+                salary: parseFloat(document.getElementById('salary').value)
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE}/employees`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(employeeData),
+                });
+                
+                const result = await response.json();
+                const resultDiv = document.getElementById('employeeResult');
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `<strong>Success!</strong><br><strong>Status:</strong> ${response.status}<br><strong>Response:</strong> ${JSON.stringify(result, null, 2)}`;
+                    resultDiv.className = 'result success';
+                } else {
+                    resultDiv.innerHTML = `<strong>Error!</strong><br><strong>Status:</strong> ${response.status}<br><strong>Response:</strong> ${JSON.stringify(result, null, 2)}`;
+                    resultDiv.className = 'result error';
+                }
+            } catch (error) {
+                const resultDiv = document.getElementById('employeeResult');
+                resultDiv.innerHTML = `<strong>Network Error:</strong> ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        });
+        
+        async function getAllEmployees() {
+            try {
+                const response = await fetch(`${API_BASE}/employees`);
+                const result = await response.json();
+                const resultDiv = document.getElementById('allEmployeesResult');
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `<strong>Success!</strong><br><strong>Count:</strong> ${result.length}<br><strong>Employees:</strong> ${JSON.stringify(result, null, 2)}`;
+                    resultDiv.className = 'result success';
+                } else {
+                    resultDiv.innerHTML = `<strong>Error!</strong><br><strong>Status:</strong> ${response.status}<br><strong>Response:</strong> ${JSON.stringify(result, null, 2)}`;
+                    resultDiv.className = 'result error';
+                }
+            } catch (error) {
+                const resultDiv = document.getElementById('allEmployeesResult');
+                resultDiv.innerHTML = `<strong>Network Error:</strong> ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+    </script>
+</body>
+</html>

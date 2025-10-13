@@ -361,6 +361,7 @@ export default function Admin() {
           columns={[
             { key: 'employeeCode', label: 'Mã nhân viên', type: 'text' },
             { key: 'account_email', label: 'Email tài khoản', type: 'email' },
+            { key: 'password', label: 'Mật khẩu', type: 'password' },
             { key: 'position', label: 'Chức vụ', type: 'text' },
             { key: 'department', label: 'Phòng ban', type: 'text' },
             { key: 'salary', label: 'Lương', type: 'number' },

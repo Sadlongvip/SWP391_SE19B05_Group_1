@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Authentication Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        button { padding: 10px 15px; margin: 5px; }
+        .result { margin-top: 10px; padding: 10px; background: #f0f0f0; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>Simple Authentication Test</h1>
+    <p><strong>Note:</strong> This test works even if the database is not connected.</p>
+    
+    <div class="test-section">
+        <h3>1. Test Health Endpoint</h3>
+        <button onclick="testHealth()">Test Health</button>
+        <div id="health-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>2. Test Admin Login (Username Only)</h3>
+        <input type="text" id="admin-username" placeholder="Username" value="admin">
+        <button onclick="testAdminUsernameOnly()">Test Admin Username Only</button>
+        <div id="admin-username-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>3. Test Admin Login (Email Only)</h3>
+        <input type="text" id="admin-email" placeholder="Email" value="admin@gmail.com">
+        <button onclick="testAdminEmailOnly()">Test Admin Email Only</button>
+        <div id="admin-email-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>4. Test Admin Login (Username + Password)</h3>
+        <input type="text" id="admin-user-pass" placeholder="Username" value="admin">
+        <input type="password" id="admin-pass" placeholder="Password" value="admin123">
+        <button onclick="testAdminWithPassword()">Test Admin with Password</button>
+        <div id="admin-pass-result" class="result"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080/api';
+        
+        async function testHealth() {
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                const result = await response.text();
+                const resultDiv = document.getElementById('health-result');
+                resultDiv.innerHTML = `<strong>Status:</strong> ${response.status}<br><strong>Response:</strong> ${result}`;
+                resultDiv.className = response.ok ? 'result success' : 'result error';
+            } catch (error) {
+                const resultDiv = document.getElementById('health-result');
+                resultDiv.innerHTML = `<strong>Error:</strong> ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+        
+        async function testAdminUsernameOnly() {
+            const username = document.getElementById('admin-username').value;
+            try {
+                const response = await fetch(`${API_BASE}/accounts/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: username,
+                        role: 'admin'
+                    })
+                });
+                const result = await response.json();
+                const resultDiv = document.getElementById('admin-username-result');
+                resultDiv.innerHTML = `<strong>Status:</strong> ${response.status}<br><strong>Response:</strong> ${JSON.stringify(result, null, 2)}`;
+                resultDiv.className = response.ok ? 'result success' : 'result error';
+            } catch (error) {
+                const resultDiv = document.getElementById('admin-username-result');
+                resultDiv.innerHTML = `<strong>Error:</strong> ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+        
+        async function testAdminEmailOnly() {
+            const email = document.getElementById('admin-email').value;
+            try {
+                const response = await fetch(`${API_BASE}/accounts/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: email,
+                        role: 'admin'
+                    })
+                });
+                const result = await response.json();
+                const resultDiv = document.getElementById('admin-email-result');
+                resultDiv.innerHTML = `<strong>Status:</strong> ${response.status}<br><strong>Response:</strong> ${JSON.stringify(result, null, 2)}`;
+                resultDiv.className = response.ok ? 'result success' : 'result error';
+            } catch (error) {
+                const resultDiv = document.getElementById('admin-email-result');
+                resultDiv.innerHTML = `<strong>Error:</strong> ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+        
+        async function testAdminWithPassword() {
+            const username = document.getElementById('admin-user-pass').value;
+            const password = document.getElementById('admin-pass').value;
+            try {
+                const response = await fetch(`${API_BASE}/accounts/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password,
+                        role: 'admin'
+                    })
+                });
+                const result = await response.json();
+                const resultDiv = document.getElementById('admin-pass-result');
+                resultDiv.innerHTML = `<strong>Status:</strong> ${response.status}<br><strong>Response:</strong> ${JSON.stringify(result, null, 2)}`;
+                resultDiv.className = response.ok ? 'result success' : 'result error';
+            } catch (error) {
+                const resultDiv = document.getElementById('admin-pass-result');
+                resultDiv.innerHTML = `<strong>Error:</strong> ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+    </script>
+</body>
+</html>

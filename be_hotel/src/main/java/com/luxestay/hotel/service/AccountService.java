@@ -19,6 +19,13 @@ public class AccountService {
     public Account getAccountById(int id){
         return accountRepository.findById(id).get();
     }
+    
+    public Account findByEmail(String email) {
+        return accountRepository.findAll().stream()
+            .filter(acc -> email.equals(acc.getEmail()))
+            .findFirst()
+            .orElse(null);
+    }
 
     public void addAccount(Account account){
         // Set default status to active when creating new account
@@ -39,4 +46,19 @@ public class AccountService {
         accountRepository.save(account);
     }
 
+    public Account findByUsername(String username) {
+        return accountRepository.findAll().stream()
+            .filter(acc -> username.equals(acc.getUserName()))
+            .findFirst()
+            .orElse(null);
+    }
+
+    public boolean isStaffAccount(int accountId) {
+        // Check if this account is linked to an employee
+        return employeeRepository.findAll().stream()
+            .anyMatch(emp -> emp.getAccount() != null && emp.getAccount().getId() == accountId);
+    }
+
+    @Autowired
+    private com.luxestay.hotel.dao.EmployeeRepository employeeRepository;
 }

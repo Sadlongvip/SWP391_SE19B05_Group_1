@@ -18,21 +18,15 @@ public class Employee {
     @Transient
     private String account_email; // For frontend compatibility
 
-    public String getAccount_email() {
-        return account != null ? account.getEmail() : null;
-    }
 
-    public void setAccount_email(String email) {
-        if (this.account == null) {
-            this.account = new Account();
-        }
-        this.account.setEmail(email);
-    }
     private String employeeCode;
     private String position;
     private String department;
     private LocalDate hireDate;
     private BigDecimal salary;
+    
+    @Transient
+    private String password; // Transient field for frontend compatibility
     private int status = 1; // 1: active, 0: inactive
     //======================================================
 
@@ -104,5 +98,24 @@ public class Employee {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getAccount_email() {
+        return account != null ? account.getEmail() : null;
+    }
+
+    public void setAccount_email(String email) {
+        if (this.account == null) {
+            this.account = new Account();
+        }
+        this.account.setEmail(email);
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

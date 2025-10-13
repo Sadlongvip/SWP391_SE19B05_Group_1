@@ -2,8 +2,12 @@ package com.luxestay.hotel.controller;
 
 import java.util.List;
 
+import com.luxestay.hotel.dto.GoogleLoginRequest;
+import com.luxestay.hotel.dto.LoginRequest;
+import com.luxestay.hotel.dto.LoginResponse;
 import com.luxestay.hotel.model.Account;
 import com.luxestay.hotel.service.AccountService;
+import com.luxestay.hotel.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +33,9 @@ public class AccountController {
 
     @Autowired
     private AccountService accountService;
+    
+    @Autowired
+    private AuthService authService;
 
     @GetMapping("/health")
     public ResponseEntity<String> healthCheck() {
@@ -93,6 +100,32 @@ public class AccountController {
             return ResponseEntity.ok("Account deactivated successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
+        try {
+            LoginResponse response = authService.authenticateUser(loginRequest);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+    
+    @PostMapping("/google-login")
+    public ResponseEntity<LoginResponse> googleLogin(@RequestBody GoogleLoginRequest googleRequest) {
+        try {
+            // For now, we'll simulate Google token verification
+            // In production, you should verify the token with Google's API
+            // For demo purposes, we'll extract email from a mock token
+            String mockEmail = "user@gmail.com"; // This should come from Google token verification
+            String mockName = "Google User";
+            
+            LoginResponse response = authService.authenticateGoogleUser(mockEmail, mockName);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 }

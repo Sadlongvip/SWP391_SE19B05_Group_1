@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Authentication Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        button { padding: 10px 15px; margin: 5px; }
+        .result { margin-top: 10px; padding: 10px; background: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <h1>Authentication System Test</h1>
+    
+    <div class="test-section">
+        <h3>1. Test Health Endpoint</h3>
+        <button onclick="testHealth()">Test Health</button>
+        <div id="health-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>2. Test User Login</h3>
+        <input type="email" id="user-email" placeholder="Email" value="user@example.com">
+        <button onclick="testUserLogin()">Test User Login</button>
+        <div id="user-login-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>3. Test Staff Login (Username OR Password)</h3>
+        <input type="text" id="staff-username" placeholder="Username" value="staff">
+        <input type="password" id="staff-password" placeholder="Password (Optional)" value="">
+        <button onclick="testStaffLogin()">Test Staff Login</button>
+        <div id="staff-login-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>4. Test Admin Login (Username OR Password)</h3>
+        <input type="text" id="admin-username" placeholder="Username" value="admin">
+        <input type="password" id="admin-password" placeholder="Password (Optional)" value="">
+        <button onclick="testAdminLogin()">Test Admin Login</button>
+        <div id="admin-login-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>5. Test Google Login</h3>
+        <button onclick="testGoogleLogin()">Test Google Login</button>
+        <div id="google-login-result" class="result"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080/api';
+        
+        async function testHealth() {
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                const result = await response.text();
+                document.getElementById('health-result').innerHTML = 
+                    `<strong>Status:</strong> ${response.status}<br><strong>Response:</strong> ${result}`;
+            } catch (error) {
+                document.getElementById('health-result').innerHTML = 
+                    `<strong>Error:</strong> ${error.message}`;
+            }
+        }
+        
+        async function testUserLogin() {
+            const email = document.getElementById('user-email').value;
+            try {
+                const response = await fetch(`${API_BASE}/accounts/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: email,
+                        role: 'user'
+                    })
+                });
+                const result = await response.json();
+                document.getElementById('user-login-result').innerHTML = 
+                    `<strong>Status:</strong> ${response.status}<br><strong>Response:</strong> ${JSON.stringify(result, null, 2)}`;
+            } catch (error) {
+                document.getElementById('user-login-result').innerHTML = 
+                    `<strong>Error:</strong> ${error.message}`;
+            }
+        }
+        
+        async function testStaffLogin() {
+            const username = document.getElementById('staff-username').value;
+            const password = document.getElementById('staff-password').value;
+            try {
+                const response = await fetch(`${API_BASE}/accounts/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password,
+                        role: 'staff'
+                    })
+                });
+                const result = await response.json();
+                document.getElementById('staff-login-result').innerHTML = 
+                    `<strong>Status:</strong> ${response.status}<br><strong>Response:</strong> ${JSON.stringify(result, null, 2)}`;
+            } catch (error) {
+                document.getElementById('staff-login-result').innerHTML = 
+                    `<strong>Error:</strong> ${error.message}`;
+            }
+        }
+        
+        async function testAdminLogin() {
+            const username = document.getElementById('admin-username').value;
+            const password = document.getElementById('admin-password').value;
+            try {
+                const response = await fetch(`${API_BASE}/accounts/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password,
+                        role: 'admin'
+                    })
+                });
+                const result = await response.json();
+                document.getElementById('admin-login-result').innerHTML = 
+                    `<strong>Status:</strong> ${response.status}<br><strong>Response:</strong> ${JSON.stringify(result, null, 2)}`;
+            } catch (error) {
+                document.getElementById('admin-login-result').innerHTML = 
+                    `<strong>Error:</strong> ${error.message}`;
+            }
+        }
+        
+        async function testGoogleLogin() {
+            try {
+                const response = await fetch(`${API_BASE}/accounts/google-login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        token: 'mock-google-token'
+                    })
+                });
+                const result = await response.json();
+                document.getElementById('google-login-result').innerHTML = 
+                    `<strong>Status:</strong> ${response.status}<br><strong>Response:</strong> ${JSON.stringify(result, null, 2)}`;
+            } catch (error) {
+                document.getElementById('google-login-result').innerHTML = 
+                    `<strong>Error:</strong> ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>

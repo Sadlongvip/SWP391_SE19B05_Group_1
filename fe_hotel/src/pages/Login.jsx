@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { endpoints, apiGet } from '../services/api'
+import { endpoints, apiGet, apiJson } from '../services/api'
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google'
+import '../styles/login.css'
+
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID
 
 export default function Login(){
   const nav = useNavigate()
@@ -10,43 +14,66 @@ export default function Login(){
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
 
+  async function handleGoogleLogin(response) {
+    try {
+      // Send the Google token to your backend for verification
+      const userData = await apiJson(endpoints.googleLogin(), 'POST', { 
+        token: response.credential 
+      })
+      
+      localStorage.setItem('session', JSON.stringify({ 
+        role: userData.role, 
+        id: userData.id, 
+        name: userData.name,
+        loginType: userData.loginType,
+        token: userData.token
+      }))
+      nav('/')
+    } catch (err) {
+      setError('Google login failed: ' + err.message)
+    }
+  }
+
   async function handleSubmit(e){
     e.preventDefault()
     setError('')
     try {
+      // Validate required fields - ALL roles now require password
       if(role === 'user'){
-        if(!email) return setError('Vui lòng nhập email')
-        // Demo: find account by email from list
-        const accounts = await apiGet(endpoints.accounts())
-        const found = accounts.find(a => (a.email||'').toLowerCase() === email.toLowerCase())
-        if(found){
-          localStorage.setItem('session', JSON.stringify({ role: 'user', id: found.id, name: found.userName }))
-          return nav('/')
-        }
-        return setError('Không tìm thấy tài khoản với email này')
+        if(!email || !password) return setError('Vui lòng nhập email và mật khẩu hoặc đăng nhập bằng Google')
       } else {
-        if(!(username || email) || !password) return setError('Nhập gmail/username và mật khẩu')
-        // Demo: staff/admin validation: username/email + password must match existing staff by email or staffId
-        if(role === 'staff'){
-          const staffList = await apiGet(endpoints.staffs())
-          const found = staffList.find(s => (s.email === email && password) || (s.staffId === username && password))
-          if(found){
-            localStorage.setItem('session', JSON.stringify({ role: 'staff', id: found.id, name: found.staffName }))
-            return nav('/admin')
-          }
-          return setError('Thông tin đăng nhập nhân viên không đúng')
-        } else {
-          // Temporary admin: hardcoded demo account
-          const ok = (username === 'admin' || email === 'admin@gmail.com') && password === 'admin123'
-          if(ok){
-            localStorage.setItem('session', JSON.stringify({ role: 'admin', id: 0, name: 'Administrator' }))
-            return nav('/admin')
-          }
-          return setError('Thông tin đăng nhập admin không đúng')
+        if(!(username || email) || !password) {
+          return setError('Vui lòng nhập email/username và mật khẩu')
         }
       }
+
+      // Call backend authentication
+      const loginRequest = {
+        email: email,
+        username: username,
+        password: password,
+        role: role
+      }
+
+      const response = await apiJson(endpoints.login(), 'POST', loginRequest)
+      
+      localStorage.setItem('session', JSON.stringify({ 
+        role: response.role, 
+        id: response.id, 
+        name: response.name,
+        loginType: response.loginType,
+        token: response.token
+      }))
+      
+      // Navigate based on role
+      if(response.role === 'user') {
+        nav('/')
+      } else {
+        nav('/admin')
+      }
+      
     } catch(err){
-      setError('Đăng nhập thất bại')
+      setError('Đăng nhập thất bại: ' + err.message)
     }
   }
 
@@ -63,28 +90,50 @@ export default function Login(){
           </select>
         </div>
 
-        {role === 'user' ? (
-          <div>
-            <label className="block mb-1">Email</label>
-            <input value={email} onChange={e=>setEmail(e.target.value)} className="border px-3 py-2 w-full" placeholder="you@example.com" />
-          </div>
-        ) : (
-          <>
-            <div>
-              <label className="block mb-1">Gmail hoặc Username</label>
-              <input value={email||username} onChange={e=>{ setEmail(e.target.value); setUsername(e.target.value) }} className="border px-3 py-2 w-full" placeholder="admin@gmail.com hoặc admin" />
-            </div>
-            <div>
-              <label className="block mb-1">Mật khẩu</label>
-              <input type="password" value={password} onChange={e=>setPassword(e.target.value)} className="border px-3 py-2 w-full" />
-            </div>
-          </>
-        )}
+        <div>
+          <label className="block mb-1">
+            {role === 'user' ? 'Email' : 'Gmail hoặc Username'}
+          </label>
+          <input 
+            value={role === 'user' ? email : (email||username)} 
+            onChange={e=>{
+              if(role === 'user') {
+                setEmail(e.target.value)
+              } else {
+                setEmail(e.target.value); 
+                setUsername(e.target.value)
+              }
+            }} 
+            className="border px-3 py-2 w-full" 
+            placeholder={role === 'user' ? 'you@example.com' : 'admin@gmail.com hoặc admin'} 
+          />
+        </div>
+        <div>
+          <label className="block mb-1">Mật khẩu</label>
+          <input type="password" value={password} onChange={e=>setPassword(e.target.value)} className="border px-3 py-2 w-full" placeholder="Nhập mật khẩu" />
+        </div>
 
         {error && <div className="text-red-600 text-sm">{error}</div>}
 
         <button className="bg-black text-white px-4 py-2">Đăng nhập</button>
       </form>
+
+      {role === 'user' && (
+        <div className="mt-6">
+          <div className="text-center text-gray-500 mb-4">Hoặc đăng nhập bằng</div>
+          <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+            <GoogleLogin
+              onSuccess={handleGoogleLogin}
+              onError={() => setError('Google login failed')}
+              theme="outline"
+              size="large"
+              width="100%"
+              text="signin_with"
+              shape="rectangular"
+            />
+          </GoogleOAuthProvider>
+        </div>
+      )}
     </div>
   )
 }
