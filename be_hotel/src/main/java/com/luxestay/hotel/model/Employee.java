@@ -11,15 +11,12 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "account_id")
-    private Account account;
+
     
-    @Transient
-    private String account_email; // For frontend compatibility
 
 
-    private String employeeCode;
+
+    private String employeeGmail;
     private String position;
     private String department;
     private LocalDate hireDate;
@@ -44,21 +41,7 @@ public class Employee {
         this.id = id;
     }
 
-    public Account getAccount() {
-        return account;
-    }
 
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    public String getEmployeeCode() {
-        return employeeCode;
-    }
-
-    public void setEmployeeCode(String employeeCode) {
-        this.employeeCode = employeeCode;
-    }
 
     public String getPosition() {
         return position;
@@ -100,16 +83,6 @@ public class Employee {
         this.status = status;
     }
 
-    public String getAccount_email() {
-        return account != null ? account.getEmail() : null;
-    }
-
-    public void setAccount_email(String email) {
-        if (this.account == null) {
-            this.account = new Account();
-        }
-        this.account.setEmail(email);
-    }
 
     public String getPassword() {
         return password;

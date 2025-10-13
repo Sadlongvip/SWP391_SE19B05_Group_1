@@ -1,4 +1,4 @@
-package com.luxestay.hotel.dao;
+package com.luxestay.hotel.repository;
 
 import com.luxestay.hotel.model.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;

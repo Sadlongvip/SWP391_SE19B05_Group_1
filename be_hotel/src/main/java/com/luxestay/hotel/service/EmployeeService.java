@@ -1,10 +1,11 @@
 package com.luxestay.hotel.service;
 
-import com.luxestay.hotel.dao.AccountRepository;
-import com.luxestay.hotel.dao.EmployeeRepository;
+import com.luxestay.hotel.repository.AccountRepository;
+import com.luxestay.hotel.repository.EmployeeRepository;
+import com.luxestay.hotel.repository.RoleRepository;
 import com.luxestay.hotel.model.Account;
 import com.luxestay.hotel.model.Employee;
-import com.luxestay.hotel.model.Roles;
+import com.luxestay.hotel.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,9 @@ public class EmployeeService {
     
     @Autowired
     private AccountRepository accountRepository;
+    
+    @Autowired
+    private RoleRepository roleRepository;
 
     public List<Employee> getAllEmployees(){
         return employeeRepository.findAll();
@@ -35,7 +39,7 @@ public class EmployeeService {
                 if (existingAccount != null) {
                     // Use existing account but update password if provided
                     if (employee.getPassword() != null && !employee.getPassword().trim().isEmpty()) {
-                        existingAccount.setPassword(employee.getPassword());
+                        existingAccount.setPasswordHash(employee.getPassword());
                         accountRepository.save(existingAccount);
                     }
                     employee.setAccount(existingAccount);
@@ -43,13 +47,13 @@ public class EmployeeService {
                     // Create new account
                     Account newAccount = new Account();
                     newAccount.setEmail(employee.getAccount_email());
-                    newAccount.setUserName(employee.getAccount_email().split("@")[0]); // Use email prefix as username
-                    newAccount.setPassword(employee.getPassword() != null && !employee.getPassword().trim().isEmpty() 
+                    newAccount.setFullName(employee.getAccount_email().split("@")[0]); // Use email prefix as username
+                    newAccount.setPasswordHash(employee.getPassword() != null && !employee.getPassword().trim().isEmpty()
                         ? employee.getPassword() : "defaultPassword123");
-                    newAccount.setIs_active(1);
+                    newAccount.setIsActive(true);
                     
                     // Set employee role using static role
-                    newAccount.setRoles(Roles.EMPLOYEE);
+                    newAccount.setRole(Role.EMPLOYEE);
                     
                     // Save account first
                     Account savedAccount = accountRepository.save(newAccount);
@@ -92,7 +96,7 @@ public class EmployeeService {
         if (employee.getPassword() != null && !employee.getPassword().trim().isEmpty()) {
             Account account = existingEmployee.getAccount();
             if (account != null) {
-                account.setPassword(employee.getPassword());
+                account.setPasswordHash(employee.getPassword());
                 accountRepository.save(account);
             }
         }

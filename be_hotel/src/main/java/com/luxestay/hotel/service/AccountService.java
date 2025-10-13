@@ -1,7 +1,8 @@
 package com.luxestay.hotel.service;
 
-import com.luxestay.hotel.dao.AccountRepository;
+import com.luxestay.hotel.repository.AccountRepository;
 import com.luxestay.hotel.model.Account;
+import com.luxestay.hotel.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,7 @@ public class AccountService {
 
     public void addAccount(Account account){
         // Set default status to active when creating new account
-        account.setIs_active(1);
+        account.setIsActive(true);
         accountRepository.save(account);
     }
 
@@ -37,7 +38,7 @@ public class AccountService {
         // Soft delete: set is_active to 0 instead of removing from database
         Account account = accountRepository.findById(id).orElse(null);
         if (account != null) {
-            account.setIs_active(0);
+            account.setIsActive(false);
             accountRepository.save(account);
         }
     }
@@ -48,7 +49,7 @@ public class AccountService {
 
     public Account findByUsername(String username) {
         return accountRepository.findAll().stream()
-            .filter(acc -> username.equals(acc.getUserName()))
+            .filter(acc -> username.equals(acc.getFullName()))
             .findFirst()
             .orElse(null);
     }
@@ -60,5 +61,5 @@ public class AccountService {
     }
 
     @Autowired
-    private com.luxestay.hotel.dao.EmployeeRepository employeeRepository;
+    private EmployeeRepository employeeRepository;
 }
