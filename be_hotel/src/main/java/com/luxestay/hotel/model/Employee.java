@@ -12,10 +12,6 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    
-
-
-
     private String employeeGmail;
     private String position;
     private String department;
@@ -40,8 +36,6 @@ public class Employee {
     public void setId(int id) {
         this.id = id;
     }
-
-
 
     public String getPosition() {
         return position;
@@ -90,5 +84,13 @@ public class Employee {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmployeeGmail() {
+        return employeeGmail;
+    }
+
+    public void setEmployeeGmail(String employeeGmail) {
+        this.employeeGmail = employeeGmail;
     }
 }

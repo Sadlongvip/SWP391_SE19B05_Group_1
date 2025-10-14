@@ -15,10 +15,7 @@ import java.util.List;
 public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
-    
-    @Autowired
-    private AccountRepository accountRepository;
-    
+
     @Autowired
     private RoleRepository roleRepository;
 
@@ -31,42 +28,8 @@ public class EmployeeService {
     }
 
     public void addEmployee(Employee employee){
-        try {
-            // Handle Account creation/association
-            if (employee.getAccount_email() != null && !employee.getAccount_email().trim().isEmpty()) {
-                // Check if account already exists
-                Account existingAccount = accountRepository.findByEmail(employee.getAccount_email());
-                if (existingAccount != null) {
-                    // Use existing account but update password if provided
-                    if (employee.getPassword() != null && !employee.getPassword().trim().isEmpty()) {
-                        existingAccount.setPasswordHash(employee.getPassword());
-                        accountRepository.save(existingAccount);
-                    }
-                    employee.setAccount(existingAccount);
-                } else {
-                    // Create new account
-                    Account newAccount = new Account();
-                    newAccount.setEmail(employee.getAccount_email());
-                    newAccount.setFullName(employee.getAccount_email().split("@")[0]); // Use email prefix as username
-                    newAccount.setPasswordHash(employee.getPassword() != null && !employee.getPassword().trim().isEmpty()
-                        ? employee.getPassword() : "defaultPassword123");
-                    newAccount.setIsActive(true);
-                    
-                    // Set employee role using static role
-                    newAccount.setRole(Role.EMPLOYEE);
-                    
-                    // Save account first
-                    Account savedAccount = accountRepository.save(newAccount);
-                    employee.setAccount(savedAccount);
-                }
-            } else {
-                throw new RuntimeException("Account email is required for employee creation");
-            }
-            
-            // Set default status to active when creating new employee
-            employee.setStatus(1);
+        try{
             employeeRepository.save(employee);
-            
         } catch (Exception e) {
             throw new RuntimeException("Failed to create employee: " + e.getMessage(), e);
         }
@@ -76,8 +39,8 @@ public class EmployeeService {
         Employee existingEmployee = employeeRepository.findById(employee.getId()).orElseThrow();
         
         // Update basic fields
-        if (employee.getEmployeeCode() != null) {
-            existingEmployee.setEmployeeCode(employee.getEmployeeCode());
+        if (employee.getEmployeeGmail() != null) {
+            existingEmployee.setEmployeeGmail(employee.getEmployeeGmail());
         }
         if (employee.getPosition() != null) {
             existingEmployee.setPosition(employee.getPosition());
@@ -92,14 +55,14 @@ public class EmployeeService {
             existingEmployee.setStatus(employee.getStatus());
         }
         
-        // Update password if provided
-        if (employee.getPassword() != null && !employee.getPassword().trim().isEmpty()) {
-            Account account = existingEmployee.getAccount();
-            if (account != null) {
-                account.setPasswordHash(employee.getPassword());
-                accountRepository.save(account);
-            }
-        }
+//        // Update password if provided
+//        if (employee.getPassword() != null && !employee.getPassword().trim().isEmpty()) {
+//            Account account = existingEmployee.getAccount();
+//            if (account != null) {
+//                account.setPasswordHash(employee.getPassword());
+//                accountRepository.save(account);
+//            }
+//        }
         
         // Save the updated employee
         employeeRepository.save(existingEmployee);

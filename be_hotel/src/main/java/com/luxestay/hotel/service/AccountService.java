@@ -54,11 +54,11 @@ public class AccountService {
             .orElse(null);
     }
 
-    public boolean isStaffAccount(int accountId) {
-        // Check if this account is linked to an employee
-        return employeeRepository.findAll().stream()
-            .anyMatch(emp -> emp.getAccount() != null && emp.getAccount().getId() == accountId);
-    }
+//    public boolean isStaffAccount(int accountId) {
+//        // Check if this account is linked to an employee
+//        return employeeRepository.findAll().stream()
+//            .anyMatch(emp -> emp.getAccount() != null && emp.getAccount().getId() == accountId);
+//    }
 
     @Autowired
     private EmployeeRepository employeeRepository;

@@ -17,6 +17,7 @@ public class Role {
 
     @Column(columnDefinition = "NVARCHAR(MAX)")
     private String description;
+
     //========================================================
     @OneToMany(mappedBy = "role")
     private List<Account> accounts;
